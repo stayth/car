@@ -1,0 +1,72 @@
+เว็บไซต์คำนวณราคาประมูล
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>คำนวณราคาประกันมูลค่ารถยนต์</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 30px;
+      max-width: 500px;
+      margin: auto;
+    }
+    label, input {
+      display: block;
+      margin: 10px 0;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      border-top: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>คำนวณราคาประกันมูลค่ารถยนต์</h1>
+
+  <label for="price">ราคาประมูล (หน่วย: พันบาท):</label>
+  <input type="number" id="price" placeholder="เช่น 285 = 285,000 บาท" />
+
+  <label for="extra">ค่าใช้จ่ายอื่นๆเพิ่มเติม (บาท):</label>
+  <input type="number" id="extra" placeholder="เช่น 500 หรือ 1000" />
+
+  <button onclick="calculate()">คำนวณ</button>
+
+  <div class="result" id="result" style="display:none;">
+    <p>ราคาประมูล: <span id="formattedPrice"></span> บาท</p>
+    <p>VAT 7%: <span id="vat"></span> บาท</p>
+    <p>ค่าดำเนินการ (คงที่): 12,840 บาท</p>
+    <p>ค่าใช้จ่ายเพิ่มเติม: <span id="extraCost"></span> บาท</p>
+    <p><strong>รวมทั้งหมด: <span id="total"></span> บาท</strong></p>
+  </div>
+
+  <script>
+    function calculate() {
+      const input = parseInt(document.getElementById('price').value);
+      const extraInput = parseFloat(document.getElementById('extra').value) || 0;
+
+      if (isNaN(input) || input <= 0) {
+        alert("กรุณาใส่จำนวนราคาประมูลที่ถูกต้อง (เป็นหน่วยพัน)");
+        return;
+      }
+
+      const price = input * 1000;
+      const vat = price * 0.07;
+      const fee = 12840;
+      const total = price + vat + fee + extraInput;
+
+      document.getElementById('formattedPrice').innerText = price.toLocaleString();
+      document.getElementById('vat').innerText = vat.toFixed(2).toLocaleString();
+      document.getElementById('extraCost').innerText = extraInput.toFixed(2).toLocaleString();
+      document.getElementById('total').innerText = total.toFixed(2).toLocaleString();
+      document.getElementById('result').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
